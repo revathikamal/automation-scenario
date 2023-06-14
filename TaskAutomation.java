@@ -39,16 +39,19 @@ public class TaskAutomation {
         // Go to the Cart page and remove items that have a price <$15
         WebElement cartIcon = driver.findElement(By.className("shopping_cart_link"));
         cartIcon.click();
+        List<WebElement> cartItemPrices = driver.findElements(By.className("inventory_item_price"));
+        for (WebElement cartItemPrice : cartItemPrices) {
+            String priceText = cartItemPrice.getText().substring(1);
+            double price = Double.parseDouble(priceText);
+            if (price < 15) {
+               WebElement removeButton = cartItemPrice.findElement(By.xpath("../..//button[text()='Remove']"));
+            	//WebElement removeButton=cartItemPrice.findElement(By.id("remove-sauce-labs-fleece-jacket"));
+                removeButton.click();
+            }
+        }
+        Thread.sleep(500);
         WebElement checkoutButton= driver.findElement(By.id("checkout"));
         checkoutButton.click();
-//        WebElement firstNameInput = driver.findElement(By.id("first-name"));
-//        WebElement lastNameInput = driver.findElement(By.id("last-name"));
-//        WebElement postalCodeInput = driver.findElement(By.id("postal-code"));
-//        WebElement continueButton = driver.findElement(By.id("checkout"));
-//        firstNameInput.sendKeys("test");
-//        lastNameInput.sendKeys("test");
-//        postalCodeInput.sendKeys("12345");
-//        continueButton.click();
         driver.findElement(By.id("first-name")).sendKeys("Revathi");
         driver.findElement(By.id("last-name")).sendKeys("Kamal");
         driver.findElement(By.id("postal-code")).sendKeys("670502");
